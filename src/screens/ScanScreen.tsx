@@ -251,31 +251,30 @@ export const ScanScreen: React.FC = () => {
     // --- Sub-views renderers ---
 
     const renderCameraView = () => (
-        <div className="screen-container bg-black relative-wrap h-screen flex flex-col transition-all duration-300">
+        <div className="camera-view-container">
             {/* Header */}
             {!scanResult && (
-                <div className="camera-header z-50 absolute w-full top-0 left-0 p-4 flex justify-between items-center text-white bg-gradient-to-b from-black/60 to-transparent">
-                    <button className="p-2 bg-black/40 rounded-full backdrop-blur-md active:scale-90 transition" onClick={resetCamera}>
+                <div className="camera-header">
+                    <button className="camera-header-btn" onClick={resetCamera}>
                         <ArrowLeft size={24} />
                     </button>
-                    <span className="font-semibold tracking-wide">AI Scanner</span>
-                    <button className="p-2 bg-black/40 rounded-full backdrop-blur-md active:scale-90 transition" onClick={() => setFacingMode(prev => prev === 'user' ? 'environment' : 'user')}>
+                    <span className="camera-title">AI Scanner</span>
+                    <button className="camera-header-btn" onClick={() => setFacingMode(prev => prev === 'user' ? 'environment' : 'user')}>
                         <RefreshCw size={20} />
                     </button>
                 </div>
             )}
 
             {/* Webcam / Frozen Image */}
-            <div className={`webcam-container absolute top-0 left-0 w-full ${scanResult ? 'h-[35vh] z-0' : 'h-full'} transition-all duration-500 overflow-hidden`}>
+            <div className={`webcam-wrapper ${scanResult ? 'half-height' : ''}`}>
                 {scanResult?.imageSrc ? (
-                    <img src={scanResult.imageSrc} alt="Captured" className="w-full h-full object-cover" />
+                    <img src={scanResult.imageSrc} alt="Captured" />
                 ) : (
                     <Webcam
                         audio={false}
                         ref={webcamRef}
                         screenshotFormat="image/jpeg"
                         videoConstraints={{ facingMode, advanced: flashOn && facingMode === 'environment' ? [{ torch: true } as any] : [] }}
-                        className="w-full h-full object-cover"
                     />
                 )}
             </div>
@@ -283,27 +282,25 @@ export const ScanScreen: React.FC = () => {
             {/* Overlay Elements (Only when active camera) */}
             {!scanResult && !isAnalyzing && (
                 <>
-                    <div className="pointer-events-none z-10 absolute inset-0 flex flex-col items-center justify-center">
-                        <div className="w-64 h-64 border-2 border-green-400 rounded-3xl relative animate-pulse shadow-[0_0_20px_rgba(74,222,128,0.3)]">
-                            <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-green-500 rounded-tl-3xl -mt-1 -ml-1"></div>
-                            <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-green-500 rounded-tr-3xl -mt-1 -mr-1"></div>
-                            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-green-500 rounded-bl-3xl -mb-1 -ml-1"></div>
-                            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-green-500 rounded-br-3xl -mb-1 -mr-1"></div>
-                            <div className="absolute left-0 w-full h-0.5 bg-green-400/50 box-shadow-[0_0_8px_#4ade80] animate-scan-line"></div>
+                    <div className="camera-overlay-ui">
+                        <div className="focus-frame">
+                            <div className="focus-frame-tl"></div>
+                            <div className="focus-frame-tr"></div>
+                            <div className="focus-frame-bl"></div>
+                            <div className="focus-frame-br"></div>
+                            <div className="scan-line-anim"></div>
                         </div>
-                        <p className="bg-black/60 text-white px-5 py-2 mt-8 rounded-full text-sm font-medium backdrop-blur-md shadow-lg">
-                            Align leaf inside frame
-                        </p>
+                        <p className="scan-instruction">Align leaf inside frame</p>
                     </div>
 
-                    <div className="z-50 absolute w-full bottom-0 pb-10 pt-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex justify-center items-center gap-12">
-                        <button className="p-3 bg-white/10 rounded-full text-white backdrop-blur-md active:scale-95 transition" onClick={() => setFlashOn(!flashOn)}>
-                            {flashOn ? <Zap size={24} className="text-yellow-400" /> : <ZapOff size={24} />}
+                    <div className="camera-controls-bottom">
+                        <button className="camera-control-btn" onClick={() => setFlashOn(!flashOn)}>
+                            {flashOn ? <Zap size={24} color="#FBBF24" /> : <ZapOff size={24} />}
                         </button>
-                        <button className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center p-1 backdrop-blur-sm active:scale-90 transition-transform" onClick={captureAndAnalyze}>
-                            <div className="w-full h-full bg-white rounded-full border-4 border-gray-200 flex items-center justify-center"></div>
+                        <button className="capture-btn-outer" onClick={captureAndAnalyze}>
+                            <div className="capture-btn-inner"></div>
                         </button>
-                        <button className="p-3 bg-white/10 rounded-full text-white backdrop-blur-md active:scale-95 transition" onClick={() => navigate('/insights')}>
+                        <button className="camera-control-btn" onClick={() => navigate('/insights')}>
                             <ImageIcon size={24} />
                         </button>
                     </div>
@@ -312,116 +309,103 @@ export const ScanScreen: React.FC = () => {
 
             {/* Analyzing Overlay */}
             {isAnalyzing && (
-                <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/80 backdrop-blur-sm">
-                    <div className="relative mb-6 flex items-center justify-center w-24 h-24">
-                        <div className="absolute w-full h-full border-4 border-t-green-500 border-r-transparent border-b-green-500 border-l-transparent rounded-full animate-spin"></div>
-                        <div className="absolute w-16 h-16 border-4 border-r-green-400 border-l-green-400 border-t-transparent border-b-transparent rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
-                        <ScanLine size={32} className="text-green-400" />
+                <div className="analyzing-overlay">
+                    <div className="analyzing-spinner-container">
+                        <div className="spinning-ring-1"></div>
+                        <div className="spinning-ring-2"></div>
+                        <ScanLine size={32} color="#4ade80" />
                     </div>
-                    <div className="bg-white px-6 py-3 rounded-2xl shadow-xl shadow-green-900/20">
-                        <h3 className="text-green-800 text-lg font-bold tracking-tight">Analyzing with AI...</h3>
+                    <div className="analyzing-text-card">
+                        Analyzing with AI...
                     </div>
                 </div>
             )}
 
             {/* Exact AI Result Card per Prompt Image */}
             {scanResult && showResultModal && !isAnalyzing && (
-                <div className="absolute bottom-0 left-0 w-full h-[70vh] bg-white rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.2)] z-50 flex flex-col transform transition-transform duration-500 ease-out translate-y-0">
-                    <div className="flex-1 overflow-y-auto w-full max-w-md mx-auto relative px-6 py-6 scroll-smooth">
+                <div className="result-modal-container">
+                    <div className="result-modal-scroll">
+                        <h1 className="result-hero-title">{scanResult.cropName}</h1>
 
-                        <h1 className="text-[26px] font-extrabold text-[#111827]">{scanResult.cropName}</h1>
-
-                        <div className="flex items-center text-[#4b5563] text-sm mt-1 mb-2 font-medium">
-                            <Info size={14} className="mr-1" /> Risk Detected
+                        <div className="result-risk-badge">
+                            <Info size={14} style={{ marginRight: '4px' }} /> Risk Detected
                         </div>
 
-                        <div className="flex items-center text-[#111827] font-extrabold text-[22px] mb-3">
-                            <Bug size={24} className="mr-2 opacity-80" /> {scanResult.diseaseName}
+                        <div className="result-disease-name">
+                            <Bug size={24} style={{ marginRight: '8px', opacity: 0.8 }} /> {scanResult.diseaseName}
                         </div>
 
-                        <div className="text-[15px] text-[#374151] mb-1">
-                            Severity: <span className="font-medium">{scanResult.severity}</span>
+                        <div className="result-stat-line">
+                            Severity: <span style={{ fontWeight: 600 }}>{scanResult.severity}</span>
                         </div>
-                        <div className="text-[15px] text-[#374151] mb-2">
-                            Confidence: <span className="font-extrabold">{scanResult.confidence}%</span>
+                        <div className="result-stat-line">
+                            Confidence: <span style={{ fontWeight: 800 }}>{scanResult.confidence}%</span>
                         </div>
 
-                        <p className="text-[15px] text-[#4b5563] leading-snug mb-5 max-w-[95%]">
+                        <p className="result-cause-text">
                             {scanResult.cause}
                         </p>
 
-                        <div className="mb-4">
-                            <h2 className="text-[19px] font-extrabold text-[#111827] flex items-start flex-col gap-0.5 leading-tight mb-2">
-                                <span>1</span>
+                        <div>
+                            <div className="result-section-title">
+                                <span style={{ fontSize: '13px', color: '#6b7280' }}>Step 1</span>
                                 <span>Recommended Treatment</span>
-                            </h2>
-                            <ul className="space-y-1">
+                            </div>
+                            <ul className="result-list">
                                 {scanResult.treatment?.map((t, idx) => (
-                                    <li key={idx} className="flex items-start text-[14px] text-[#374151] font-medium leading-snug">
-                                        <CheckCircle2 size={16} className="text-gray-700 mr-2 mt-0.5 flex-shrink-0" />
+                                    <li key={idx}>
+                                        <CheckCircle2 size={16} color="#4b5563" style={{ marginRight: '8px', flexShrink: 0, marginTop: '2px' }} />
                                         <span>{t}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
 
-                        <div className="mb-6">
-                            <h2 className="text-[19px] font-extrabold text-[#111827] flex items-start flex-col gap-0.5 leading-tight mb-2">
-                                <span>2</span>
+                        <div>
+                            <div className="result-section-title">
+                                <span style={{ fontSize: '13px', color: '#6b7280' }}>Step 2</span>
                                 <span>Prevention Tips</span>
-                            </h2>
-                            <ul className="space-y-1">
+                            </div>
+                            <ul className="result-list">
                                 {scanResult.prevention?.map((p, idx) => (
-                                    <li key={idx} className="flex items-start text-[14px] text-[#374151] font-medium leading-snug">
-                                        <CheckCircle2 size={16} className="text-gray-700 mr-2 mt-0.5 flex-shrink-0" />
+                                    <li key={idx}>
+                                        <CheckCircle2 size={16} color="#4b5563" style={{ marginRight: '8px', flexShrink: 0, marginTop: '2px' }} />
                                         <span>{p}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
 
-                        <div className="mb-8">
-                            <Leaf size={48} className="text-[#111827] mb-2 ml-1" strokeWidth={1.5} />
-                            <h2 className="text-[17px] font-extrabold text-[#111827] flex items-center mb-1">
-                                <Leaf size={16} className="mr-2" /> Recommended Fertilizer
+                        <div className="fert-box">
+                            <Leaf size={48} color="#111827" style={{ marginBottom: '8px' }} strokeWidth={1.5} />
+                            <h2 style={{ fontSize: '17px', fontWeight: 800, color: '#111827', display: 'flex', alignItems: 'center', marginBottom: '4px' }}>
+                                <Leaf size={16} style={{ marginRight: '8px' }} /> Recommended Fertilizer
                             </h2>
-                            <p className="text-[14px] text-[#4b5563] font-medium ml-1">
+                            <p style={{ fontSize: '14px', color: '#4b5563', fontWeight: 500 }}>
                                 {scanResult.fertilizer}
                             </p>
                         </div>
 
                         {/* Action Buttons precisely modeled after the image layout */}
-                        <div className="flex gap-2 w-full mt-4 h-28 mb-8">
-                            <button
-                                className="flex-[2] bg-[#2e7d32] text-white rounded-[36px] p-4 flex flex-row items-center justify-center gap-2 hover:bg-[#1b5e20] transition-colors shadow-sm"
-                                onClick={handleChatWithContext}
-                            >
-                                <MessageCircle size={22} className="flex-shrink-0" />
-                                <span className="font-bold text-center leading-tight text-[15px]">Chat with AI about<br />this</span>
+                        <div className="action-buttons-row">
+                            <button className="action-btn-main" onClick={handleChatWithContext}>
+                                <MessageCircle size={22} style={{ flexShrink: 0 }} />
+                                <span>Chat with AI about<br />this</span>
                             </button>
 
-                            <div className="flex flex-col gap-2 flex-1 max-w-[90px]">
-                                <button
-                                    className="flex-1 bg-[#e8f5e9] text-[#1b5e20] rounded-[16px] flex flex-col items-center justify-center py-2 hover:bg-[#c8e6c9] transition-colors shadow-sm"
-                                    onClick={handleDownloadReport}
-                                >
-                                    <Download size={16} className="mb-1 opacity-80" strokeWidth={2.5} />
-                                    <span className="font-bold text-[11px] text-center leading-tight">Save<br />PDF</span>
+                            <div className="action-btn-col">
+                                <button className="action-btn-secondary" onClick={handleDownloadReport}>
+                                    <Download size={16} style={{ marginBottom: '4px', opacity: 0.8 }} strokeWidth={2.5} />
+                                    <span>Save<br />PDF</span>
                                 </button>
-                                <button
-                                    className="flex-1 bg-[#e8f5e9] text-[#1b5e20] rounded-[16px] flex flex-col items-center justify-center py-2 hover:bg-[#c8e6c9] transition-colors shadow-sm"
-                                    onClick={scanAgain}
-                                >
-                                    <Camera size={16} className="mb-1 opacity-80" strokeWidth={2.5} />
-                                    <span className="font-bold text-[11px] text-center leading-tight">Scan<br />Again</span>
+                                <button className="action-btn-secondary" onClick={scanAgain}>
+                                    <Camera size={16} style={{ marginBottom: '4px', opacity: 0.8 }} strokeWidth={2.5} />
+                                    <span>Scan<br />Again</span>
                                 </button>
                             </div>
 
-                            <button
-                                className="w-[60px] bg-[#f3f4f6] text-[#4b5563] rounded-[16px] border border-gray-200 flex flex-col items-center justify-center p-2 hover:bg-gray-200 transition-colors shadow-sm"
-                                onClick={() => setViewState('main')}
-                            >
-                                <span className="font-medium text-[11px] text-center leading-tight">Return<br />Home</span>
+                            <button className="action-btn-neutral" onClick={() => setViewState('main')}>
+                                <span>Return<br />Home</span>
                             </button>
                         </div>
                     </div>
