@@ -1,0 +1,379 @@
+.screen-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content-padding {
+    padding: 0 16px 24px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 24px 0 12px;
+}
+
+.greeting-section {
+    margin-bottom: 20px;
+}
+
+.greeting-section h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+/* Weather Card */
+.weather-card {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    color: white;
+    box-shadow: 0 8px 16px rgba(46, 125, 50, 0.2);
+    margin-bottom: 24px;
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.weather-header h3 {
+    color: white;
+    font-size: 18px;
+    margin: 0 0 4px;
+}
+
+.weather-header p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 14px;
+}
+
+.weather-icon-main {
+    width: 48px;
+    height: 48px;
+    color: #FFEB3B;
+    filter: drop-shadow(0 0 8px rgba(255, 235, 59, 0.5));
+}
+
+.weather-stats {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-icon {
+    width: 16px;
+    height: 16px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-val {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Smart Alerts */
+.alerts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alert-card {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    gap: 12px;
+}
+
+.alert-card.warning {
+    background-color: #FFF8E1;
+    border: 1px solid #FFE082;
+}
+
+.alert-card.warning .alert-icon {
+    color: #FF8F00;
+}
+
+.alert-card.info {
+    background-color: #E3F2FD;
+    border: 1px solid #90CAF9;
+}
+
+.alert-card.info .alert-icon {
+    color: #1976D2;
+}
+
+.alert-content h4 {
+    font-size: 14px;
+    margin: 0 0 4px;
+    color: var(--text-primary);
+}
+
+.alert-content p {
+    font-size: 13px;
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Quick Actions Grid */
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 12px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.action-btn .icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.bg-green {
+    background-color: #4CAF50;
+}
+
+.bg-orange {
+    background-color: #FF9800;
+}
+
+.bg-blue {
+    background-color: #2196F3;
+}
+
+.bg-yellow {
+    background-color: #FFC107;
+    color: #333 !important;
+}
+
+.bg-teal {
+    background-color: #009688;
+}
+
+.bg-purple {
+    background-color: #9C27B0;
+}
+
+.action-btn span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* Farm Summary */
+.farm-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.summary-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #F3F4F6;
+}
+
+.summary-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 12px;
+}
+
+.text-green {
+    color: #4CAF50;
+}
+
+.text-orange {
+    color: #FF9800;
+}
+
+.text-blue {
+    color: #2196F3;
+}
+
+.text-purple {
+    color: #9C27B0;
+}
+
+.summary-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.summary-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Market Prices */
+.market-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 24px;
+}
+
+.market-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.market-header h3 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.text-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.market-prices {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.market-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.market-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.market-item span:first-child {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.price-up {
+    color: #4CAF50;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.price-neutral {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Recommendations */
+.rec-card {
+    background-color: var(--surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.rec-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.rec-info {
+    padding: 16px;
+}
+
+.rec-info h4 {
+    margin: 0 0 6px;
+    font-size: 16px;
+}
+
+.rec-info p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+/* Schemes Banner */
+.schemes-banner {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: #4A148C;
+}
+
+.banner-content {
+    flex: 1;
+}
+
+.banner-content h4 {
+    margin: 0 0 4px;
+    font-size: 15px;
+    color: #4A148C;
+}
+
+.banner-content p {
+    margin: 0;
+    font-size: 12px;
+    color: #6A1B9A;
+}

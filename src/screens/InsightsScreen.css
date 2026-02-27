@@ -1,0 +1,344 @@
+/* =========================================================================
+   INSIGHTS SCREEN CSS
+   ========================================================================= */
+
+.insights-container {
+    background-color: var(--bg-light);
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+/* Time Filter Segmented Control */
+.segmented-control {
+    display: flex;
+    background: #E5E7EB;
+    border-radius: 30px;
+    padding: 4px;
+    margin-bottom: 24px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.segment-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    border-radius: 26px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.segment-btn.active {
+    background: white;
+    color: var(--primary-dark);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Base Card Style */
+.analytics-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid #F3F4F6;
+    margin-bottom: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Overriding pointer style for clickable cards */
+.clickable-card {
+    cursor: pointer;
+}
+
+.clickable-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Section Title */
+.analytics-section-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+/* Profit Overview Card */
+.profit-header h3 {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 0 0 6px;
+    font-weight: 600;
+}
+
+.profit-main-val {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 24px;
+}
+
+.trend-indicator.up {
+    color: #4CAF50;
+}
+
+.trend-indicator.down {
+    color: #F44336;
+}
+
+.trend-indicator svg {
+    margin-right: 4px;
+}
+
+.profit-split {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid #F3F4F6;
+}
+
+.split-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.split-stat .lbl {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.split-stat .val {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.split-stat .val.revenue {
+    color: #10B981;
+}
+
+.split-stat .val.expense {
+    color: #F97316;
+}
+
+/* Custom Bar Chart */
+.custom-bar-chart {
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+.chart-y-axis-line {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #E5E7EB;
+    z-index: 1;
+}
+
+.chart-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    /* Space between bars */
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    justify-content: center;
+}
+
+.chart-bar {
+    width: 14px;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.chart-bar.revenue {
+    background-color: var(--primary);
+}
+
+.chart-bar.expense {
+    background-color: #FFB74D;
+    opacity: 0.9;
+}
+
+.chart-label {
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-swatch.revenue {
+    background-color: var(--primary);
+}
+
+.legend-swatch.expense {
+    background-color: #FFB74D;
+}
+
+/* Expense Tracker List */
+.expense-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #F3F4F6;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.expense-item:active {
+    opacity: 0.7;
+}
+
+.expense-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.expense-item:first-child {
+    padding-top: 0;
+}
+
+.expense-detail-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.expense-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.expense-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.expense-detail-right {
+    text-align: right;
+}
+
+.expense-amount {
+    display: block;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.expense-percent {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Sub-views Headers */
+.subview-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    margin-left: -8px;
+    cursor: pointer;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.back-btn:active {
+    background: #E5E7EB;
+}
+
+.subview-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-entrance {
+    animation: slideInUp 0.3s ease-out forwards;
+}
