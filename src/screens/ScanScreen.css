@@ -1234,3 +1234,35 @@
     font-size: 11px;
     line-height: 1.2;
 }
+
+/* Circular Scanner Animation */
+.circular-scanner {
+    width: 140px;
+    height: 140px;
+    border: 14px solid white;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    animation: circularScan 1.6s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -70px;
+    margin-left: -70px;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
+    z-index: 10;
+}
+
+@keyframes circularScan {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden-file-input {
+    display: none;
+}

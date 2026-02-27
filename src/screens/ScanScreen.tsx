@@ -67,6 +67,7 @@ export const ScanScreen: React.FC = () => {
     // Camera & Scan State
     const webcamRef = useRef<Webcam>(null);
     const reportRef = useRef<HTMLDivElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment');
     const [flashOn, setFlashOn] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -159,13 +160,7 @@ export const ScanScreen: React.FC = () => {
 
     // --- AI Scan Button Implementation ---
 
-    const captureAndAnalyze = useCallback(() => {
-        const imageSrc = webcamRef.current?.getScreenshot();
-        if (!imageSrc) {
-            alert("Unable to detect crop clearly. Please retake photo.");
-            return;
-        }
-
+    const startAnalysis = (imageSrc: string) => {
         setIsAnalyzing(true);
 
         // Simulate AI Upload and Processing
@@ -189,6 +184,29 @@ export const ScanScreen: React.FC = () => {
             setScanResult(result);
             setShowResultModal(true);
         }, 2000);
+    };
+
+    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const result = reader.result as string;
+                startAnalysis(result);
+            };
+            reader.readAsDataURL(file);
+        }
+        if (e.target) e.target.value = '';
+    };
+
+    const captureAndAnalyze = useCallback(() => {
+        const imageSrc = webcamRef.current?.getScreenshot();
+        if (!imageSrc) {
+            alert("Unable to detect crop clearly. Please retake photo.");
+            return;
+        }
+
+        startAnalysis(imageSrc);
     }, [webcamRef]);
 
     const resetCamera = () => {
@@ -288,19 +306,27 @@ export const ScanScreen: React.FC = () => {
                             <div className="focus-frame-tr"></div>
                             <div className="focus-frame-bl"></div>
                             <div className="focus-frame-br"></div>
+                            <div className="circular-scanner"></div>
                             <div className="scan-line-anim"></div>
                         </div>
                         <p className="scan-instruction">Align leaf inside frame</p>
                     </div>
 
                     <div className="camera-controls-bottom">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            className="hidden-file-input"
+                            onChange={handleFileUpload}
+                        />
                         <button className="camera-control-btn" onClick={() => setFlashOn(!flashOn)}>
                             {flashOn ? <Zap size={24} color="#FBBF24" /> : <ZapOff size={24} />}
                         </button>
                         <button className="capture-btn-outer" onClick={captureAndAnalyze}>
                             <div className="capture-btn-inner"></div>
                         </button>
-                        <button className="camera-control-btn" onClick={() => navigate('/insights')}>
+                        <button className="camera-control-btn" onClick={() => fileInputRef.current?.click()}>
                             <ImageIcon size={24} />
                         </button>
                     </div>
